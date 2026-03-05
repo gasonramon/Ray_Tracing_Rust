@@ -1,0 +1,122 @@
+use std::fmt::{Display, Result, Formatter};
+use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub};
+#[derive(Copy, Clone, Default)]
+pub struct Vec3 {
+    e: [f64; 3],
+}
+
+impl Vec3 {
+    pub fn new(x: f64, y: f64, z: f64) -> Vec3 {
+        Vec3 { e: [x, y, z] }
+    }
+
+    pub fn get_x(&self) -> f64 {
+        self.e[0]
+    }
+    pub fn get_y(&self) -> f64 {
+        self.e[1]
+    }
+    pub fn get_z(&self) -> f64 {
+        self.e[2]
+    }
+
+    pub fn length(&self) -> f64 {
+        f64::sqrt(self.get_squared_length())
+    }
+
+    pub fn get_squared_length(&self) -> f64 {
+        self.e[0] * self.e[0] + self.e[1] * self.e[1] + self.e[2] * self.e[2]
+    }
+}
+pub type Point3 = Vec3;
+impl Display for Vec3 {
+    fn fmt(&self, f: &mut Formatter) -> Result {
+        write!(f, "({}, {}, {})", self.e[0], self.e[1], self.e[2])
+    }
+}
+
+impl Neg for Vec3 {
+    type Output = Vec3;
+    fn neg(self) -> Vec3 {
+        Vec3 { e: [-self.e[0], -self.e[1], -self.e[2]] }
+    }
+}
+
+impl AddAssign for Vec3 {
+    fn add_assign(&mut self, v: Vec3) {
+        *self = *self + v;
+    }
+}
+
+impl MulAssign<f64> for Vec3 {
+    fn mul_assign(&mut self, t: f64) {
+        *self = *self * t;
+    }
+}
+
+impl DivAssign<f64> for Vec3 {
+    fn div_assign(&mut self, t: f64) {
+        *self = *self / t;
+    }
+}
+
+impl Add for Vec3 {
+    type Output = Vec3;
+    fn add(self, v: Vec3) -> Vec3 {
+        Vec3::new(self.get_x() + v.get_x(), self.get_y() + v.get_y(), self.get_z() + v.get_z())
+    }
+}
+
+impl Sub for Vec3 {
+    type Output = Vec3;
+    fn sub(self, v: Vec3) -> Vec3 {
+        Vec3::new(self.get_x() - v.get_x(), self.get_y() - v.get_y(), self.get_z() - v.get_z())
+    }
+}
+
+impl Mul for Vec3 {
+    type Output = Vec3;
+
+    fn mul(self, v: Vec3) -> Vec3 {
+        Vec3::new(self.get_x() * v.get_x(), self.get_y() * v.get_y(), self.get_z() * v.get_z())
+    }
+}
+
+impl Mul<Vec3> for f64 {
+    type Output = Vec3;
+
+    fn mul(self, v: Vec3) -> Vec3 {
+        Vec3::new(self * v.get_x(), self * v.get_y(), self * v.get_z())
+    }
+}
+
+impl Mul<f64> for Vec3 {
+    type Output = Vec3;
+
+    fn mul(self, t: f64) -> Vec3 {
+        Vec3::new(self.get_x() * t, self.get_y() * t, self.get_z() * t)
+    }
+}
+
+impl Div<f64> for Vec3 {
+    type Output = Vec3;
+
+    fn div(self, t: f64) -> Vec3 {
+        Vec3::new(self.get_x() / t, self.get_y() / t, self.get_z() / t)
+    }
+}
+pub fn dot(u: Vec3, v: Vec3) -> f64 {
+    u.e[0] * v.e[0] + u.e[1] * v.e[1] + u.e[2] * v.e[2]
+}
+
+pub fn cross(u: Vec3, v: Vec3) -> Vec3 {
+    Vec3::new(
+        u.e[1] * v.e[2] - u.e[2] * v.e[1],
+        u.e[2] * v.e[0] - u.e[0] * v.e[2],
+        u.e[0] * v.e[1] - u.e[1] * v.e[0],
+    )
+}
+
+pub fn unit_vector(v: Vec3) -> Vec3 {
+    v / v.length()
+}
