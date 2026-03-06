@@ -2,13 +2,19 @@ mod color;
 mod ray;
 mod vec3;
 mod Hitteble;
+mod sphere;
+mod Hitteble_list;
+mod Common;
+
 
 use std::io;
 
 use color::Color;
 use ray::Ray;
 use vec3::{Point3, Vec3};
-
+use Hitteble::{Hitrecord, Hittable};
+use Hitteble_list::HittableList;
+use sphere::Sphere;
 fn hit_sphere(center: &Point3, radius: f64, ray: &Ray) -> f64 {
     let oc = ray.get_origin() - *center;
     let a = vec3::dot(ray.get_direction(), ray.get_direction());
@@ -22,15 +28,15 @@ fn hit_sphere(center: &Point3, radius: f64, ray: &Ray) -> f64 {
     }
 }
 
-fn ray_color(r: &Ray) -> Color {
-    let t = hit_sphere(&Point3::new(0.0, 0.0, -1.0), 0.5, r);
-    if t > 0.0 {
-        let n = vec3::unit_vector(r.get_position(t) - Vec3::new(0.0, 0.0, -1.0));
-        return 0.5 * Color::new(n.get_x() + 1.0, n.get_y() + 1.0, n.get_z() + 1.0);
+fn ray_color(r: &Ray, world: &dyn Hittable) -> Color {
+    let mut rec = Hitrecord::new();
+    if world.hit(r, 0.0, f64::INFINITY, &mut rec) {
+        return 0.5 * (rec.normal + Color::new(1.0, 1.0, 1.0))
     }
     let unit_direction = vec3::unit_vector(r.get_direction());
     let t = 0.5 * (unit_direction.get_y() + 1.0 );
     (1.0 - t) * Color::new(1.0, 1.0, 1.0) + t * Color::new(0.5, 0.7, 1.0)
+
 }
 
 
@@ -38,8 +44,14 @@ fn ray_color(r: &Ray) -> Color {
 fn main() {
     const ASPECT_RATIO: f64 = 16.0 / 9.0;
 
-    const IMAGE_WIDTH: i32 = 400;
+    const IMAGE_WIDTH: i32 = 600;
     const IMAGE_HEIGHT: i32 = (IMAGE_WIDTH as f64 / ASPECT_RATIO) as i32;
+
+
+    //World
+    let mut world = HittableList::new();
+    world.add(Box::new(Sphere::new(Point3::new(0.0, 0.0, -1.0),0.5)));
+    world.add(Box::new(Sphere::new(Point3::new(0.0, 0.0, -1.0),0.5)));
 
     let viewport_height = 2.0;
     let viewport_width = ASPECT_RATIO * viewport_height;
@@ -60,7 +72,7 @@ fn main() {
             let r = Ray::new(origin,
                              lower_left_corner + u * horizontal + v * vertical - origin);
 
-            let pixel_color = ray_color(&r);
+            let pixel_color = ray_color(&r, &world);
             color::write_color(&mut io::stdout(), pixel_color);
         }
     }
