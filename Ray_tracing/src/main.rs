@@ -6,6 +6,7 @@ mod Hitteble;
 mod sphere;
 mod Hitteble_list;
 mod Common;
+mod material;
 
 use std::io;
 
@@ -34,8 +35,8 @@ fn ray_color(r: &Ray, world: &dyn Hittable, depth: i32) -> Color {
         return Color::new(0.0, 0.0, 0.0);
     }
     let mut rec = Hitrecord::new();
-    if world.hit(r, 0.0, f64::INFINITY, &mut rec) {
-        let direction = rec.normal + vec3::random_unit_in_sphere();
+    if world.hit(r, 0.001, Common::INFINITY, &mut rec) {
+        let direction = rec.normal + vec3::random_unit_vector();
 
         return 0.5 * ray_color(&Ray::new(rec.posisition, direction), world, depth - 1)
     }
@@ -52,7 +53,7 @@ fn main() {
     const IMAGE_WIDTH: i32 = 400;
     const IMAGE_HEIGHT: i32 = (IMAGE_WIDTH as f64 / ASPECT_RATIO) as i32;
     const SAMPLES_PER_PIXEL: i32 = 100;
-    const MAX_DEPTH: i32 = 40;
+    const MAX_DEPTH: i32 = 50;
 
     //World
     let mut world = HittableList::new();
