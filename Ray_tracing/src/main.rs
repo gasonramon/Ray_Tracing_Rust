@@ -29,10 +29,15 @@ fn hit_sphere(center: &Point3, radius: f64, ray: &Ray) -> f64 {
     }
 }
 
-fn ray_color(r: &Ray, world: &dyn Hittable) -> Color {
+fn ray_color(r: &Ray, world: &dyn Hittable, depth: i32) -> Color {
+    if depth <= 0 {
+        return Color::new(0.0, 0.0, 0.0);
+    }
     let mut rec = Hitrecord::new();
     if world.hit(r, 0.0, f64::INFINITY, &mut rec) {
-        return 0.5 * (rec.normal + Color::new(1.0, 1.0, 1.0))
+        let direction = rec.normal + vec3::random_unit_in_sphere();
+
+        return 0.5 * ray_color(&Ray::new(rec.posisition, direction), world, depth - 1)
     }
     let unit_direction = vec3::unit_vector(r.get_direction());
     let t = 0.5 * (unit_direction.get_y() + 1.0 );
@@ -44,10 +49,10 @@ fn ray_color(r: &Ray, world: &dyn Hittable) -> Color {
 
 fn main() {
     const ASPECT_RATIO: f64 = 16.0 / 9.0;
-
     const IMAGE_WIDTH: i32 = 400;
     const IMAGE_HEIGHT: i32 = (IMAGE_WIDTH as f64 / ASPECT_RATIO) as i32;
     const SAMPLES_PER_PIXEL: i32 = 100;
+    const MAX_DEPTH: i32 = 40;
 
     //World
     let mut world = HittableList::new();
@@ -71,10 +76,10 @@ fn main() {
         for j in (0..IMAGE_WIDTH) {
             let mut pixel_color = Color::new(0.0, 0.0, 0.0);
             for _ in 0..SAMPLES_PER_PIXEL {
-                let u = (i as f64 + Common::random_double()) / (IMAGE_WIDTH - 1) as f64;
-                let v = (j as f64 + Common::random_double()) / (IMAGE_HEIGHT - 1) as f64;
+                let u = (j as f64 + Common::random_double()) / (IMAGE_WIDTH - 1) as f64;
+                let v = (i as f64 + Common::random_double()) / (IMAGE_HEIGHT - 1) as f64;
                 let r = cam.get_ray(u, v);
-                pixel_color += ray_color(&r, &world);
+                pixel_color += ray_color(&r, &world, MAX_DEPTH);
             }
             color::write_color(&mut io::stdout(), pixel_color, SAMPLES_PER_PIXEL);
         }
