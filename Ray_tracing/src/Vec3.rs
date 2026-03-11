@@ -45,6 +45,12 @@ impl Vec3 {
     pub fn get_squared_length(&self) -> f64 {
         self.e[0] * self.e[0] + self.e[1] * self.e[1] + self.e[2] * self.e[2]
     }
+
+    pub fn near_zero(&self) -> bool {
+        const EPS: f64 = 1e-8;
+        //return 0 if the vector is close to 0
+        self.e[0].abs() < EPS && self.e[1].abs() < EPS && self.e[2].abs() < EPS
+    }
 }
 pub type Point3 = Vec3;
 impl Display for Vec3 {
@@ -151,4 +157,15 @@ pub fn random_unit_in_sphere() -> Vec3 {
 
 pub fn random_unit_vector() -> Vec3 {
     unit_vector(random_unit_in_sphere())
+}
+
+pub fn reflect(v: Vec3, n: Vec3) -> Vec3 {
+    v - 2.0 * dot(v, n) * n
+}
+
+pub fn refract(uv: Vec3, n: Vec3, etai_over_etat: f64) -> Vec3 {
+    let cos_theta = f64::min(dot(-uv, n), 1.0);
+    let r_out_perp = etai_over_etat * (uv + cos_theta * n);
+    let r_out_perallel = -f64::sqrt(f64::abs(1.0 - r_out_perp.get_squared_length())) * n;
+    r_out_perallel + r_out_perp
 }
