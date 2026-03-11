@@ -64,6 +64,7 @@ fn main() {
 
     //World
     let mut world = HittableList::new();
+
     let material_ground = Rc::new(Lambertian::new(Color::new(0.8, 0.8, 0.0)));
     let material_center = Rc::new(Lambertian::new(Color::new(0.1, 0.2, 0.5)));
     let material_left = Rc::new(Dielectric::new(1.5));
@@ -77,7 +78,7 @@ fn main() {
     world.add(Box::new(Sphere::new(
         Point3::new(0.0, 0.0, -1.0),
         0.5,
-        material_center
+        material_center,
     )));
     world.add(Box::new(Sphere::new(
         Point3::new(-1.0, 0.0, -1.0),
@@ -86,7 +87,7 @@ fn main() {
     )));
     world.add(Box::new(Sphere::new(
         Point3::new(-1.0, 0.0, -1.0),
-        -0.4,
+        -0.45,
         material_left,
     )));
     world.add(Box::new(Sphere::new(
@@ -96,7 +97,12 @@ fn main() {
     )));
 
     //Camera
-    let cam = Camera::new(90.0, ASPECT_RATIO);
+    let position = Point3::new(-2.0, 2.0, 1.0);
+    let lookat = Point3::new(0.0, 0.0, -1.0);
+    let vup = Vec3::new(0.0, 1.0, 0.0);
+    let cam = Camera::new(position,lookat, vup, 20.0, ASPECT_RATIO);
+
+    //render
     let viewport_height = 2.0;
     let viewport_width = ASPECT_RATIO * viewport_height;
     let focal_length = 1.0;
