@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #0d0d12;
+  --surface: #13131a;
+  --surface2: #1a1a24;
+  --border: #2a2a3a;
+  --accent: #7c6af7;
+  --accent2: #56cfb2;
+  --text: #e8e8f0;
+  --muted: #8888a8;
+  --code-bg: #0a0a10;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+h1, h2, h3, h4 {
+  line-height: 1.25;
+  font-weight: 600;
+}
+
+h1 { font-size: 2.4rem; }
+h2 { font-size: 1.7rem; margin: 2rem 0 1rem; }
+h3 { font-size: 1.2rem; margin: 1.5rem 0 0.5rem; color: var(--accent2); }
+
+p { margin-bottom: 1rem; color: #c0c0d8; }
+
+code {
+  font-family: 'JetBrains Mono', monospace;
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  padding: 0.15em 0.45em;
+  border-radius: 4px;
+  font-size: 0.88em;
+  color: var(--accent2);
+}
+
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.4rem 1.6rem;
+  overflow-x: auto;
+  margin: 1.2rem 0;
+}
+
+pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.9rem;
+  color: #cdd6f4;
+}
+
+.keyword { color: #cba6f7; }
+.type    { color: #89b4fa; }
+.fn-name { color: #a6e3a1; }
+.string  { color: #a6e3a1; }
+.number  { color: #fab387; }
+.comment { color: #6c7086; font-style: italic; }
+.punct   { color: #89dceb; }
+
+.math-block {
+  background: var(--surface);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  padding: 1rem 1.5rem;
+  margin: 1.2rem 0;
+  overflow-x: auto;
+  text-align: center;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+}
+
+.tag {
+  display: inline-block;
+  background: #2a2040;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 20px;
+  padding: 0.2rem 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  margin-right: 0.4rem;
+  margin-bottom: 0.4rem;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2rem 0;
+}
+
+.highlight-box {
+  background: linear-gradient(135deg, #1a1030 0%, #0d1a2a 100%);
+  border: 1px solid #3a2a60;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+canvas {
+  border-radius: 8px;
+  display: block;
+}
