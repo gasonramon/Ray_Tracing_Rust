@@ -1,0 +1,6 @@
+services:
+  raytracer-site:
+    image: jasonleijdekker/ray_tracer:latest
+    restart: unless-stopped
+    ports:
+      - "3001:80"
