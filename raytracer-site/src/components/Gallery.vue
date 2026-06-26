@@ -7,7 +7,7 @@
     </p>
 
     <div class="final-render">
-      <img src="/ray-tracing-image-1.jpg" alt="Final ray traced scene" class="render-img" />
+      <img src="/final-scene.png" alt="Final ray traced scene" class="render-img" />
       <div class="render-caption">
         <div class="caption-grid">
           <div class="meta-item"><span class="meta-k">Resolution</span><span class="meta-v">1200 × 800</span></div>
