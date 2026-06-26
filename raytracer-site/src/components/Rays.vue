@@ -3,6 +3,14 @@
     <h1>Rays &amp; Spheres</h1>
     <p>A ray is the fundamental primitive of ray tracing — a point in space with a direction, parameterized by a scalar <code>t</code>.</p>
 
+    <div class="result-preview">
+      <img src="/ray-tracing-image-1.jpg" alt="Ray traced scene result" class="preview-img" />
+      <p class="preview-caption">
+        Every pixel in this image is the result of 500 rays being cast, bounced, and averaged — all
+        computed by the math explained on this page.
+      </p>
+    </div>
+
     <h2>The Ray equation</h2>
     <p>Any point along a ray can be found by:</p>
     <div class="math-block">
@@ -100,6 +108,25 @@
 </template>
 
 <style scoped>
+.result-preview {
+  margin: 1.5rem 0 2rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+}
+.preview-img {
+  width: 100%;
+  display: block;
+}
+.preview-caption {
+  padding: 0.9rem 1.2rem;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0;
+}
 .disc-row {
   display: flex; align-items: center; gap: 1rem; padding: 0.4rem 0;
   font-size: 0.9rem; color: var(--muted);
