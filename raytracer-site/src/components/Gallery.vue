@@ -2,8 +2,8 @@
   <div>
     <h1>Gallery</h1>
     <p>
-      The final scene — rendered entirely in software with no GPU or external rendering library.
-      500 samples per pixel, 50 bounce depth, ~484 randomly placed spheres.
+      The final scene, rendered entirely in software with no GPU or external rendering library.
+      500 samples per pixel, 50 bounce depth, around 484 randomly placed spheres.
     </p>
 
     <div class="final-render">

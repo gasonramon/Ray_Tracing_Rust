@@ -3,8 +3,9 @@
     <h1>Materials</h1>
     <p>
       Each sphere in the scene carries a material that decides what happens when a ray hits it.
-      The <code>Material</code> trait has a single method: <code>scatter</code> — it takes the incoming ray
-      and hit record, and optionally produces a new scattered ray plus an attenuation color.
+      The <code>Material</code> trait has a single method, <code>scatter</code>, which takes the incoming
+      ray and hit record. It either produces a new scattered ray with an attenuation color, or returns
+      false if the ray was absorbed.
     </p>
 
     <pre><code><span class="keyword">pub trait</span> <span class="type">Material</span> <span class="punct">{</span>
@@ -50,7 +51,7 @@
     <h2>Metal (specular reflection)</h2>
     <p>
       Metal reflects the ray about the surface normal. A <code>fuzz</code> factor adds a small random
-      perturbation to the reflected ray — higher fuzz means a blurrier mirror.
+      perturbation to the reflected direction, so a higher value gives a blurrier mirror.
     </p>
     <div class="math-block">
       <strong>reflected</strong> = <strong>v</strong> − 2(<strong>v</strong> · <strong>n</strong>)<strong>n</strong>
@@ -68,16 +69,16 @@
 
     <h2>Dielectric (glass)</h2>
     <p>
-      Glass both refracts and reflects depending on the angle. Refraction follows Snell's law.
-      Total internal reflection occurs when <code>η·sin(θ) &gt; 1</code> — no refracted ray is possible.
-      Even when refraction is possible, reflection probability increases at glancing angles
-      (Schlick approximation).
+      Glass both refracts and reflects depending on the angle of incidence. Refraction follows
+      Snell's law. When <code>η·sin(θ) &gt; 1</code>, total internal reflection kicks in and no
+      refracted ray is possible. Even below that threshold, reflection becomes more likely at
+      shallow angles, which is approximated using Schlick's formula.
     </p>
 
     <h3>Schlick approximation</h3>
     <p>
-      Fresnel equations are complex; Schlick gives a cheap polynomial approximation for reflectance
-      as a function of angle and refractive index:
+      The full Fresnel equations are expensive to evaluate. Schlick's approximation gives a good
+      polynomial fit for reflectance as a function of angle and refractive index:
     </p>
     <div class="math-block">
       R(θ) = R₀ + (1 − R₀)(1 − cosθ)⁵<br/>
@@ -119,9 +120,9 @@
 
 <script setup>
 const materials = [
-  { name: 'Lambertian', tag: 'Diffuse',   color: '#a6e3a1', desc: 'Scatters light in a random direction near the surface normal. Absorbs some color (albedo). Used for matte ground and colored spheres.' },
-  { name: 'Metal',      tag: 'Reflective', color: '#89b4fa', desc: 'Reflects the ray about the surface normal, with optional fuzz for a brushed-metal look. Only reflects outward.' },
-  { name: 'Dielectric', tag: 'Glass',      color: '#89dceb', desc: 'Refracts (bends) light via Snell\'s law. Uses Schlick approximation for angle-dependent reflections. Index of refraction 1.5 (glass).' },
+  { name: 'Lambertian', tag: 'Diffuse',   color: '#a6e3a1', desc: 'Scatters incoming rays randomly around the surface normal. Absorbs some light based on its albedo color. Gives a soft, matte appearance.' },
+  { name: 'Metal',      tag: 'Reflective', color: '#89b4fa', desc: 'Reflects rays about the surface normal. A fuzz parameter roughens the reflection for a brushed-metal look. Only scatters if the reflected ray faces outward.' },
+  { name: 'Dielectric', tag: 'Glass',      color: '#89dceb', desc: 'Bends light via Snell\'s law and reflects at steep angles (Schlick approximation). Refractive index of 1.5.' },
 ]
 const dist = [
   { label: 'Lambertian (diffuse)', pct: '80%', col: '#a6e3a1' },

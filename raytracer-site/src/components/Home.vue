@@ -4,8 +4,8 @@
       <div class="hero-badge">Written in Rust</div>
       <h1>Ray Tracing<br /><span class="accent">from Scratch</span></h1>
       <p class="hero-sub">
-        A software ray tracer built in Rust, implementing physically-based lighting, three material types,
-        depth-of-field, and a full random scene generator — no GPU, no external rendering library.
+        A software ray tracer built in Rust. Physically-based lighting, three material types,
+        depth of field, and a random scene generator. No GPU, no external rendering library.
       </p>
       <div class="stat-row">
         <div class="stat"><span class="stat-n">500</span><span class="stat-l">samples/pixel</span></div>
@@ -19,9 +19,9 @@
 
     <h2>How it works</h2>
     <p>
-      Ray tracing simulates how light behaves in the real world — but in reverse. Instead of photons leaving
-      a light source, we shoot rays <em>from the camera</em> into the scene and follow them as they bounce
-      off surfaces. For each pixel, we cast many rays (samples) and average their colors to get smooth,
+      Ray tracing works backwards from real light. Instead of photons leaving a light source, we shoot rays
+      <em>from the camera</em> into the scene and follow them as they bounce off surfaces. For each pixel,
+      many rays are cast with slight random offsets and their colors are averaged to produce smooth,
       anti-aliased results.
     </p>
 

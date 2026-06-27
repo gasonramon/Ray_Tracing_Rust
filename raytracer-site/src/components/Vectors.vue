@@ -4,7 +4,7 @@
     <p>Almost every calculation in ray tracing boils down to 3D vector operations. The <code>Vec3</code> struct is the backbone of the entire project.</p>
 
     <h2>The Vec3 struct</h2>
-    <p>Three <code>f64</code> values stored in a fixed array. Because it's <code>Copy</code>, vectors are passed by value cheaply — no heap allocation.</p>
+    <p>Three <code>f64</code> values stored in a fixed array. Because it's <code>Copy</code>, vectors are passed by value with no heap allocation.</p>
     <pre><code><span class="keyword">pub struct</span> <span class="type">Vec3</span> <span class="punct">{</span>
     e<span class="punct">: [</span><span class="type">f64</span><span class="punct">;</span> <span class="number">3</span><span class="punct">],</span>
 <span class="punct">}</span>
@@ -23,13 +23,13 @@
     <pre><code><span class="keyword">pub fn</span> <span class="fn-name">dot</span><span class="punct">(</span>u<span class="punct">:</span> <span class="type">Vec3</span><span class="punct">,</span> v<span class="punct">:</span> <span class="type">Vec3</span><span class="punct">) -></span> <span class="type">f64</span> <span class="punct">{</span>
     u.e[<span class="number">0</span>] <span class="punct">*</span> v.e[<span class="number">0</span>] <span class="punct">+</span> u.e[<span class="number">1</span>] <span class="punct">*</span> v.e[<span class="number">1</span>] <span class="punct">+</span> u.e[<span class="number">2</span>] <span class="punct">*</span> v.e[<span class="number">2</span>]
 <span class="punct">}</span></code></pre>
-    <p>When the dot product is negative the vectors point away from each other — used to determine front vs back face of a sphere.</p>
+    <p>A negative dot product means the vectors point away from each other. This is used to determine which face of a sphere the ray hit.</p>
 
     <h2>Vector length</h2>
     <div class="math-block">
       |<strong>v</strong>| = √(v<sub>x</sub>² + v<sub>y</sub>² + v<sub>z</sub>²)
     </div>
-    <p>The squared length is preferred when only comparisons are needed — it avoids the expensive square root.</p>
+    <p>When only comparisons are needed, the squared length is used to avoid the cost of a square root.</p>
     <pre><code><span class="keyword">pub fn</span> <span class="fn-name">length</span><span class="punct">(&</span><span class="keyword">self</span><span class="punct">) -></span> <span class="type">f64</span> <span class="punct">{</span>
     f64<span class="punct">::</span><span class="fn-name">sqrt</span><span class="punct">(</span><span class="keyword">self</span><span class="punct">.</span><span class="fn-name">get_squared_length</span><span class="punct">())</span>
 <span class="punct">}</span></code></pre>

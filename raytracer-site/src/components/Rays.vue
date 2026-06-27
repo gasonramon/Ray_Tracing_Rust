@@ -1,13 +1,13 @@
 <template>
   <div>
     <h1>Rays &amp; Spheres</h1>
-    <p>A ray is the fundamental primitive of ray tracing — a point in space with a direction, parameterized by a scalar <code>t</code>.</p>
+    <p>A ray is just an origin point with a direction, parameterized by a scalar <code>t</code>. Everything in ray tracing is built on top of this.</p>
 
     <div class="result-preview">
       <img src="/ray-tracing-image-1.jpg" alt="Ray traced scene result" class="preview-img" />
       <p class="preview-caption">
-        Every pixel in this image is the result of 500 rays being cast, bounced, and averaged — all
-        computed by the math explained on this page.
+        Every pixel here is the result of 500 rays being cast, bounced, and averaged. All of it computed
+        by the math explained on this page.
       </p>
     </div>
 
@@ -82,7 +82,7 @@
     </div>
 
     <h2>The sky background</h2>
-    <p>When a ray misses all objects it returns a sky color — a linear blend from white to blue based on the ray's Y component:</p>
+    <p>When a ray misses all objects it returns a sky color: a linear blend from white at the horizon to blue at the top, based on the ray's Y component.</p>
     <pre><code><span class="keyword">let</span> unit_direction <span class="punct">=</span> <span class="fn-name">unit_vector</span><span class="punct">(</span>r<span class="punct">.</span><span class="fn-name">get_direction</span><span class="punct">());</span>
 <span class="keyword">let</span> t <span class="punct">=</span> <span class="number">0.5</span> <span class="punct">*</span> <span class="punct">(</span>unit_direction<span class="punct">.</span><span class="fn-name">get_y</span><span class="punct">()</span> <span class="punct">+</span> <span class="number">1.0</span><span class="punct">);</span>
 <span class="comment">// lerp: white at horizon (t=0), blue at top (t=1)</span>

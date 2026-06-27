@@ -2,9 +2,9 @@
   <div>
     <h1>Camera</h1>
     <p>
-      The camera maps 2D pixel coordinates to 3D rays. It is fully positionable — you supply a
-      <code>lookfrom</code> and <code>lookat</code> point, a vertical field of view, an aspect ratio,
-      and optional depth-of-field parameters.
+      The camera maps 2D pixel coordinates to 3D rays. You give it a <code>lookfrom</code> and
+      <code>lookat</code> point, a vertical field of view, an aspect ratio, and optional
+      depth-of-field parameters, and it handles the rest.
     </p>
 
     <h2>Building the coordinate frame</h2>
@@ -18,8 +18,8 @@
 
     <h2>Field of view</h2>
     <p>
-      Vertical FOV (in degrees) determines how wide the viewport is.
-      A tighter angle acts like a telephoto lens; a wider angle is more wide-angle.
+      Vertical FOV (in degrees) controls how wide the viewport is.
+      A small angle compresses the scene like a telephoto lens; a large angle stretches it out.
     </p>
     <div class="math-block">
       h = tan(vfov / 2)<br/>
